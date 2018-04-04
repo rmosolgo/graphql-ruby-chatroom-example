@@ -3,6 +3,8 @@ class Types::Room < Types::BaseObject
   A named channel where people can post messages.
   DESC
 
+  global_id_field :id
+
   field :name, String, null: false
 
   field :messages, [Types::Message], null: false do

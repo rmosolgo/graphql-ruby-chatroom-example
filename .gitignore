@@ -21,3 +21,8 @@
 /yarn-error.log
 
 .byebug_history
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
