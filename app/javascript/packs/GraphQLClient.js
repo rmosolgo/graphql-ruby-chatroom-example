@@ -2,6 +2,10 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import PusherLink from "./PusherLink"
+// Load Pusher and create a client
+import Pusher from "pusher-js"
+var pusherClient = new Pusher("131476891f12b8936fa7", { cluster: "us2" })
 
 const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 const httpLink = createHttpLink({
@@ -23,7 +27,7 @@ const authLink = (operation, forward) => {
   return forward(operation);
 };
 
-const link = ApolloLink.from([authLink, httpLink])
+const link = ApolloLink.from([authLink, new PusherLink({pusher: pusherClient}), httpLink])
 
 const client = new ApolloClient({
   link: link,

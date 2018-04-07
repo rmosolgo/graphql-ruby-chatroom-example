@@ -11,6 +11,11 @@ class GraphqlController < ApplicationController
     end
     query_string = params[:query]
     result = ChatSchema.execute(query_string, variables: variables, context: context)
+
+    if result.subscription?
+      response.headers["X-Subscription-ID"] = result.context[:subscription_id]
+    end
+
     render json: result
   end
 end

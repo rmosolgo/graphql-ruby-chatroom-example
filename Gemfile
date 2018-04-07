@@ -5,12 +5,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "graphql", github: "rmosolgo/graphql-ruby", branch: "simple-mutation-classes"
+gem "graphql", "1.8.0.pre10"
 gem "graphiql-rails"
 source "https://gems.graphql.pro" do
-  gem "graphql-pro"
+  gem "graphql-pro", path: "~/code/graphql-pro"
 end
 gem "webpacker"
+gem 'pusher'
+gem 'redis'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'

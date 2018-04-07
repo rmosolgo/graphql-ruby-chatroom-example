@@ -16,9 +16,11 @@ class Mutations::PostMessage < Mutations::BaseMutation
       }
     end
 
-    room = Room.find_or_create_by(name: room)
-    message = room.messages.build(person: context.current_person, body: message)
+    room_obj = Room.find_or_create_by(name: room)
+    message = room_obj.messages.build(person: context.current_person, body: message)
     if message.save
+      # IRL this should probably be an after-commit hook.
+      ChatSchema.graphql_definition.subscriptions.trigger("messageWasAdded", {"room" => room}, message)
       {
         message: message,
         errors: [],

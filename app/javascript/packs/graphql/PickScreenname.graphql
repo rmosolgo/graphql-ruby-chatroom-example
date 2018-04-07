@@ -1,0 +1,8 @@
+mutation PickScreenname($screenname: String!) {
+  pickScreenname(screenname: $screenname) {
+    person {
+      screenname
+    }
+    errors
+  }
+}

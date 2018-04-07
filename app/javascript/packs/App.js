@@ -75,6 +75,7 @@ class App extends React.Component {
   handlePickScreenname(ev) {
     ev.preventDefault()
     Api.pickScreenname(this.state.pendingScreenname).then((data) => {
+      console.log("Picked SN", data)
       if (data.data.pickScreenname.errors.length) {
         alert(data.data.pickScreenname.errors.join(", "))
       } else {
@@ -154,7 +155,16 @@ class App extends React.Component {
   }
 
   _activateRoom(roomName) {
-    this.setState({currentRoom: roomName})
+    this.state.currentSubscription && this.state.currentSubscription.unsubscribe()
+
+    this.setState({
+      currentRoom: roomName,
+      currentSubscription: Api.subscribeToMessages(roomName).subscribe({
+        next: (data) => {
+          this.setState({currentMessages: data.data.messageWasAdded.room.messages})
+        }
+      }),
+    })
     Api.loadRoom(roomName).then((data) => {
       this.setState({
         currentMessages: data.data.room.messages,

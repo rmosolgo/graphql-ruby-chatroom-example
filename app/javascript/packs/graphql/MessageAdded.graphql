@@ -1,0 +1,13 @@
+subscription MessageAdded($room: String!) {
+  messageWasAdded(room: $room) {
+    room {
+      messages {
+        id
+        body
+        author {
+          screenname
+        }
+      }
+    }
+  }
+}
