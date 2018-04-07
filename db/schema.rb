@@ -10,7 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180331142101) do
+ActiveRecord::Schema.define(version: 20180407113139) do
+
+  create_table "graphql_client_operations", force: :cascade do |t|
+    t.integer "graphql_client_id", null: false
+    t.integer "graphql_operation_id", null: false
+    t.string "alias", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["graphql_client_id", "alias"], name: "graphql_client_operations_pairs", unique: true
+    t.index ["graphql_client_id"], name: "index_graphql_client_operations_on_graphql_client_id"
+    t.index ["graphql_operation_id"], name: "index_graphql_client_operations_on_graphql_operation_id"
+  end
+
+  create_table "graphql_clients", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "secret", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_graphql_clients_on_name", unique: true
+    t.index ["secret"], name: "index_graphql_clients_on_secret", unique: true
+  end
+
+  create_table "graphql_index_entries", force: :cascade do |t|
+    t.string "name", null: false
+    t.index ["name"], name: "index_graphql_index_entries_on_name", unique: true
+  end
+
+  create_table "graphql_index_references", force: :cascade do |t|
+    t.integer "graphql_index_entry_id", null: false
+    t.integer "graphql_operation_id", null: false
+    t.index ["graphql_index_entry_id", "graphql_operation_id"], name: "graphql_index_reference_pairs", unique: true
+    t.index ["graphql_index_entry_id"], name: "index_graphql_index_references_on_graphql_index_entry_id"
+    t.index ["graphql_operation_id"], name: "index_graphql_index_references_on_graphql_operation_id"
+  end
+
+  create_table "graphql_operations", force: :cascade do |t|
+    t.string "digest", null: false
+    t.text "body", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["digest"], name: "index_graphql_operations_on_digest", unique: true
+  end
 
   create_table "messages", force: :cascade do |t|
     t.integer "room_id"

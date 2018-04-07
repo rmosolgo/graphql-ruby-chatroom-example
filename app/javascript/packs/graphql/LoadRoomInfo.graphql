@@ -1,9 +1,12 @@
 query LoadRoomInfo($room: String!) {
   room(name: $room) {
+    __typename
     messages {
+      __typename
       id
       body
       author {
+        __typename
         screenname
       }
     }

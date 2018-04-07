@@ -1,11 +1,16 @@
 mutation PostChatMessage($room: String!, $message: String!) {
   postMessage(room: $room, message: $message) {
+    __typename
     message {
+      __typename
       room {
+        __typename
         messages {
+          __typename
           id
           body
           author {
+            __typename
             screenname
           }
         }

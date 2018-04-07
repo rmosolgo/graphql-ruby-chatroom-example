@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
 
-  # TODO fix routing helpers
   mount ChatSchema.pusher_webhooks_client, at: "/pusher_webhooks"
   mount ChatSchema.dashboard, at: "/graphql/dashboard"
+  mount ChatSchema.operation_store_sync, at: "/graphql/sync"
 end

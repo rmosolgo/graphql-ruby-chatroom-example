@@ -5,7 +5,7 @@ class ChatSchema < GraphQL::Schema
   subscription(Types::Subscription)
   context_class(ChatSchema::CustomContext)
   use GraphQL::Pro::Subscriptions, redis: Redis.new
-
+  use GraphQL::Pro::OperationStore
   class << self
     def_delegators :graphql_definition, :subscriptions
   end

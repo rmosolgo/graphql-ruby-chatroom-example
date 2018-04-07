@@ -1,5 +1,6 @@
 query LoadViewer {
   viewer {
+    __typename
     screenname
   }
 }

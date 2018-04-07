@@ -1,10 +1,14 @@
 subscription MessageAdded($room: String!) {
   messageWasAdded(room: $room) {
+    __typename
     room {
+      __typename
       messages {
+        __typename
         id
         body
         author {
+          __typename
           screenname
         }
       }

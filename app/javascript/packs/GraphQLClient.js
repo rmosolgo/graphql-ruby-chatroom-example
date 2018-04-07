@@ -3,6 +3,7 @@ import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import PusherLink from "./PusherLink"
+import OperationStoreLink from "./OperationStoreLink"
 // Load Pusher and create a client
 import Pusher from "pusher-js"
 var pusherClient = new Pusher("131476891f12b8936fa7", { cluster: "us2" })
@@ -27,7 +28,12 @@ const authLink = (operation, forward) => {
   return forward(operation);
 };
 
-const link = ApolloLink.from([authLink, new PusherLink({pusher: pusherClient}), httpLink])
+const link = ApolloLink.from([
+  authLink,
+  new PusherLink({pusher: pusherClient}),
+  OperationStoreLink,
+  httpLink
+])
 
 const client = new ApolloClient({
   link: link,

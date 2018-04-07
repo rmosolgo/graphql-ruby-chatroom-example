@@ -1,6 +1,8 @@
 mutation PickScreenname($screenname: String!) {
   pickScreenname(screenname: $screenname) {
+    __typename
     person {
+      __typename
       screenname
     }
     errors
