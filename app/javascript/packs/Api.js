@@ -1,5 +1,4 @@
 import client from "./GraphQLClient"
-import gql from "graphql-tag"
 import PostMessage from "./graphql/PostMessage.graphql"
 import LoadViewer from "./graphql/LoadViewer.graphql"
 import PickScreenname from "./graphql/PickScreenname.graphql"
