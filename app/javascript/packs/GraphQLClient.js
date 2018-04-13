@@ -2,11 +2,12 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import PusherLink from "./PusherLink"
-import OperationStoreLink from "./OperationStoreLink"
+import PusherLink from "graphql-ruby-client/subscriptions/PusherLink"
 // Load Pusher and create a client
 import Pusher from "pusher-js"
 var pusherClient = new Pusher("131476891f12b8936fa7", { cluster: "us2" })
+// Get the generated module for persisted queries:
+import OperationStoreClient from "./OperationStoreClient"
 
 const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 const httpLink = createHttpLink({
@@ -31,7 +32,7 @@ const authLink = (operation, forward) => {
 const link = ApolloLink.from([
   authLink,
   new PusherLink({pusher: pusherClient}),
-  OperationStoreLink,
+  OperationStoreClient.apolloLink,
   httpLink
 ])
 

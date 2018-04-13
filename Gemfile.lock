@@ -1,7 +1,7 @@
 PATH
   remote: ../graphql-pro
   specs:
-    graphql-pro (1.7.1)
+    graphql-pro (1.7.3)
       graphql (>= 1.7.5)
 
 GEM
