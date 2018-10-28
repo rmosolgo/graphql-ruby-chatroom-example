@@ -6,9 +6,6 @@ class ChatSchema < GraphQL::Schema
   context_class(ChatSchema::CustomContext)
   use GraphQL::Pro::Subscriptions, redis: Redis.new
   use GraphQL::Pro::OperationStore
-  class << self
-    def_delegators :graphql_definition, :subscriptions
-  end
 
   def self.id_from_object(object, type, ctx)
     Base64.urlsafe_encode64("#{type.name}/#{object.id}")
