@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.4.1",
+    "ably": "^1.0.18",
     "apollo-boost": "^0.1.4",
     "apollo-link-context": "^1.0.7",
     "babel-preset-react": "^6.24.1",

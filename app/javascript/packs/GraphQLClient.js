@@ -2,10 +2,10 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import PusherLink from "graphql-ruby-client/subscriptions/PusherLink"
-// Load Pusher and create a client
-import Pusher from "pusher-js"
-var pusherClient = new Pusher("131476891f12b8936fa7", { cluster: "us2" })
+import AblyLink from "graphql-ruby-client/subscriptions/AblyLink"
+// Load Ably and create a client
+const Ably = require("ably")
+const ablyClient = new Ably.Realtime('u0LX_A.FUduaw:BrJ4IV9DZBsUvnWb')
 // Get the generated module for persisted queries:
 import OperationStoreClient from "./OperationStoreClient"
 
@@ -31,7 +31,7 @@ const authLink = (operation, forward) => {
 
 const link = ApolloLink.from([
   authLink,
-  new PusherLink({pusher: pusherClient}),
+  new AblyLink({ably: ablyClient}),
   OperationStoreClient.apolloLink,
   httpLink
 ])
