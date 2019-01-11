@@ -9,6 +9,14 @@ It uses Apollo 2, but not the react bindings. Instead, the queries are lumped in
 
 If you have a question or suggestion, feel free to open an issue!
 
+## Development
+
+- `bundle install`
+- Setup webhooks:
+  - `ngrok http 3000`
+  - Add the webhook to pusher, eg "channel presence" to `https://ff0ca056.ngrok.io/pusher_webhooks`
+- `bundle exec rails server`
+
 ## Pusher Subscriptions
 
 - JS configuration

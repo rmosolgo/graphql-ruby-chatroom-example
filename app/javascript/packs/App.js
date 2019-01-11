@@ -17,6 +17,7 @@ class App extends React.Component {
     this.handleJoinRoom = this.handleJoinRoom.bind(this)
     this.handleNextRoomChange = this.handleNextRoomChange.bind(this)
     this.handleClickRoom = this.handleClickRoom.bind(this)
+    this.handleExitRoom = this.handleExitRoom.bind(this)
     this.handleMessageChange = this.handleMessageChange.bind(this)
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
     this.handlePendingScreennameChange = this.handlePendingScreennameChange.bind(this)
@@ -50,6 +51,12 @@ class App extends React.Component {
     this._activateRoom(clickedRoom)
   }
 
+  handleExitRoom(ev, clickedRoom) {
+    const newRooms = this.state.rooms.filter(r => r !== clickedRoom)
+    this.setState({rooms: newRooms})
+    this._activateRoom(null)
+  }
+
   handleMessageChange(ev) {
     this.setState({pendingMessage: ev.target.value})
   }
@@ -75,7 +82,6 @@ class App extends React.Component {
   handlePickScreenname(ev) {
     ev.preventDefault()
     Api.pickScreenname(this.state.pendingScreenname).then((data) => {
-      console.log("Picked SN", data)
       if (data.data.pickScreenname.errors.length) {
         alert(data.data.pickScreenname.errors.join(", "))
       } else {
@@ -120,6 +126,8 @@ class App extends React.Component {
               return (
                 <li key={room}>
                   <a onClick={(ev) => this.handleClickRoom(ev, room) } role="button" href="#">{room}</a>
+                  {" "}
+                  <a onClick={(ev) => this.handleExitRoom(ev, room) } role="button" href="#" style={{color: "red"}}>x</a>
                 </li>
               )
             })}
@@ -157,19 +165,26 @@ class App extends React.Component {
   _activateRoom(roomName) {
     this.state.currentSubscription && this.state.currentSubscription.unsubscribe()
 
-    this.setState({
-      currentRoom: roomName,
-      currentSubscription: Api.subscribeToMessages(roomName).subscribe({
+    if (roomName == null) {
+      this.setState({currentRoom: null})
+    }
+    else {
+      var nextSubscriptionApiResponse = Api.subscribeToMessages(roomName)
+      var nextSubscription = nextSubscriptionApiResponse.subscribe({
         next: (data) => {
           this.setState({currentMessages: data.data.messageWasAdded.room.messages})
         }
-      }),
-    })
-    Api.loadRoom(roomName).then((data) => {
-      this.setState({
-        currentMessages: data.data.room.messages,
       })
-    })
+      this.setState({
+        currentRoom: roomName,
+        currentSubscription: nextSubscription,
+      })
+      Api.loadRoom(roomName).then((data) => {
+        this.setState({
+          currentMessages: data.data.room.messages,
+        })
+      })
+    }
   }
 }
 

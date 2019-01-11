@@ -8,7 +8,7 @@ end
 gem "graphql", "~> 1.8.0"
 gem "graphiql-rails"
 source "https://gems.graphql.pro" do
-  gem "graphql-pro", path: "~/code/graphql-pro"
+  gem "graphql-pro"
 end
 gem "webpacker"
 gem 'pusher'
