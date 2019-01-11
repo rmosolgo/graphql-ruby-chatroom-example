@@ -1,9 +1,3 @@
-PATH
-  remote: ../graphql-pro
-  specs:
-    graphql-pro (1.9.0)
-      graphql (>= 1.7.5)
-
 GEM
   remote: https://rubygems.org/
   remote: https://gems.graphql.pro/
@@ -82,6 +76,8 @@ GEM
       railties
       sprockets-rails
     graphql (1.8.11)
+    graphql-pro (1.9.3)
+      graphql (>= 1.7.5)
     httpclient (2.8.3)
     i18n (1.1.1)
       concurrent-ruby (~> 1.0)
