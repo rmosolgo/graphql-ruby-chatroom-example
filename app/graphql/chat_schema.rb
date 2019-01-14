@@ -4,7 +4,10 @@ class ChatSchema < GraphQL::Schema
   mutation(Types::Mutation)
   subscription(Types::Subscription)
   context_class(ChatSchema::CustomContext)
-  use GraphQL::Pro::Subscriptions, redis: Redis.new
+  use GraphQL::Pro::AblySubscriptions,
+    redis: Redis.new,
+    ably: Ably::Rest.new(key: 'u0LX_A.Cdshgw:DHQ5clPJTuPFB0A8')
+
   use GraphQL::Pro::OperationStore
 
   def self.id_from_object(object, type, ctx)

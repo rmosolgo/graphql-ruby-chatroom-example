@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   # TODO: authenticate this endpoint!
   mount ChatSchema.dashboard, at: "/graphql/dashboard"
 
-  mount ChatSchema.pusher_webhooks_client, at: "/pusher_webhooks"
+  mount ChatSchema.ably_webhooks_client, at: "/ably_webhooks"
   mount ChatSchema.operation_store_sync, at: "/graphql/sync"
 end
