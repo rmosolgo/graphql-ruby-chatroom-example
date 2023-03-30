@@ -1,8 +1,5 @@
-class Types::Subscription < Types::BaseObject
-  field :message_was_added, Types::Message, null: false do
-    argument :room, String, required: true
-  end
-
-  def message_was_added(*)
+module Types
+  class Subscription < Types::BaseObject
+    field :message_was_added, subscription: Subscriptions::MessageWasAdded
   end
 end

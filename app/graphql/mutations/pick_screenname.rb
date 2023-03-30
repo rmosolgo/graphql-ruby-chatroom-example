@@ -11,23 +11,23 @@ class Mutations::PickScreenname < Mutations::BaseMutation
   argument :screenname, String, required: true
 
   def resolve(screenname:)
-    if context.current_person
-      if context.current_person.screenname == screenname
+    if context[:current_person]
+      if context[:current_person].screenname == screenname
         {
-          person: context.current_person,
+          person: context[:current_person],
           errors: [],
         }
       else
         {
           person: nil,
-          errors: ["Already logged in as #{context.current_person.screenname}"],
+          errors: ["Already logged in as #{context[:current_person].screenname}"],
         }
       end
     else
       new_person = Person.new(screenname: screenname)
       if new_person.save
-        context.request.session[:current_person_id] = new_person.id
-        context.current_person = new_person
+        context[:request].session[:current_person_id] = new_person.id
+        context[:current_person] = new_person
         {
           person: new_person,
           errors: [],

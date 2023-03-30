@@ -1,29 +1,53 @@
 class GraphqlController < ApplicationController
-  def query
+  # If accessing from outside this domain, nullify the session
+  # This allows for outside API access while preventing CSRF attacks,
+  # but you'll have to authenticate your user separately
+  # protect_from_forgery with: :null_session
+
+  def execute
+    variables = prepare_variables(params[:variables])
+    query = params[:query]
+    operation_name = params[:operationName]
     context = {
       current_person: Person.where(id: request.session[:current_person_id]).first,
       request: request,
-      operation_id: params[:extensions] && params[:extensions][:operationId],
     }
-    variables = if params[:variables].is_a?(String)
-      JSON.parse(params[:variables])
-    else
-      params[:variables]
-    end
-
-    query_string = if Rails.env.production?
-      # Only persisted queries in production
-      nil
-    else
-      params[:query]
-    end
-
-    result = ChatSchema.execute(query_string, variables: variables, context: context)
-
+    result = ChatroomExampleSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     if result.subscription?
       response.headers["X-Subscription-ID"] = result.context[:subscription_id]
     end
-
     render json: result
+  rescue StandardError => e
+    raise e unless Rails.env.development?
+    handle_error_in_development(e)
+  end
+
+  private
+
+  # Handle variables in form data, JSON body, or a blank value
+  def prepare_variables(variables_param)
+    case variables_param
+    when String
+      if variables_param.present?
+        JSON.parse(variables_param) || {}
+      else
+        {}
+      end
+    when Hash
+      variables_param
+    when ActionController::Parameters
+      variables_param.to_unsafe_hash # GraphQL-Ruby will validate name and type of incoming variables.
+    when nil
+      {}
+    else
+      raise ArgumentError, "Unexpected parameter: #{variables_param}"
+    end
+  end
+
+  def handle_error_in_development(e)
+    logger.error e.message
+    logger.error e.backtrace.join("\n")
+
+    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
   end
 end

@@ -1,11 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  room: one
   body: MyText
-  person: one
+  room_id: 1
+  person_id: 1
 
 two:
-  room: two
   body: MyText
-  person: two
+  room_id: 1
+  person_id: 1
