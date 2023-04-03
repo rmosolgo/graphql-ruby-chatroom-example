@@ -12,6 +12,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports.
+  config.host_authorization = { exclude: ->(request) { request.path =~ /pusher_webhooks/ } }
   config.consider_all_requests_local = true
 
   # Enable server timing

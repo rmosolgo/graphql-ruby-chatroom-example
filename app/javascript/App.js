@@ -48,8 +48,8 @@ export default function App() {
     )
   } else {
     return (
-      <div>
-        <div style={{width: "33%", float: "left"}}>
+      <div style={{display: "flex"}}>
+        <div style={{flex: "1"}}>
           <p>Logged in as {data.viewer.screenname}</p>
           <form onSubmit={(ev) => {
             ev.preventDefault()
@@ -59,11 +59,17 @@ export default function App() {
             setNextRoom('')
             setCurrentRoom(nextRoom)
             }}>
-            <input type="text" onChange={(ev) => { setNextRoom(ev.target.value) }} value={nextRoom} />
+            <input
+              type="text"
+              onChange={(ev) => { setNextRoom(ev.target.value) }}
+              value={nextRoom}
+              placeholder="Join a room"
+            />
             <button>
               Join Room
             </button>
           </form>
+          <p><strong>Current Rooms:</strong></p>
           <ul>
             {currentRooms.map((room) => {
               return (
@@ -81,13 +87,14 @@ export default function App() {
                 </li>
               )
             })}
+            {currentRooms.length == 0 ? <li><em>none</em></li> : null}
           </ul>
         </div>
-        <div style={{width: "66%", float: "right"}}>
+        <div style={{flex: "1"}}>
           {currentRoom ? (
             <Room name={currentRoom} />
           ) : (
-            <p>⬅ Join a Room</p>
+            <p><em>Join a room to chat</em></p>
           )}
         </div>
       </div>

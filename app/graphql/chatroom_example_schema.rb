@@ -15,13 +15,6 @@ class ChatroomExampleSchema < GraphQL::Schema
     super
   end
 
-  # Union and Interface Resolution
-  def self.resolve_type(abstract_type, obj, ctx)
-    # TODO: Implement this method
-    # to return the correct GraphQL object type for `obj`
-    raise(GraphQL::RequiredImplementationMissingError)
-  end
-
   # Stop validating when it encounters this many errors:
   validate_max_errors(100)
 

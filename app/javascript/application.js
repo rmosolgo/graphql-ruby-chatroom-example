@@ -1,12 +1,12 @@
 import App from "./App"
 import ReactDOM from 'react-dom'
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import { ApolloProvider, ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from "@apollo/client";
 import PusherLink from "graphql-ruby-client/subscriptions/PusherLink"
 // Load Pusher and create a client
 import Pusher from "pusher-js"
-var pusherClient = new Pusher("131476891f12b8936fa7", { cluster: "us2" })
-window.pusherClient = pusherClient
+var pusherClient = new Pusher("e4690423490c46459ca9", { cluster: "us2" })
 
 const csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 const httpLink = createHttpLink({
@@ -40,10 +40,10 @@ const client = new ApolloClient({
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
+  var root = createRoot(document.body.appendChild(document.createElement('div')))
+  root.render(
     <ApolloProvider client={client}>
       <App />
-    </ApolloProvider>,
-    document.body.appendChild(document.createElement('div')),
+    </ApolloProvider>
   )
 })
