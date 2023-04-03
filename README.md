@@ -1,5 +1,7 @@
 # Chatroom Example
 
+<img width="751" alt="image" src="https://user-images.githubusercontent.com/2231765/229505934-5dcf8ed0-b878-4783-83c8-126676ddc21e.png">
+
 This isn't a very good app, but it demonstrates a few GraphQL-Ruby features:
 
 - Pusher Subscriptions
